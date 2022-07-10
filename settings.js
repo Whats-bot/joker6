@@ -11,10 +11,10 @@ const chalk = require('chalk')
 // Website Api
 
 //Ubah Disini
-global.ownerNumber = ['77072763560']
-global.ownerName = '*ВАНИЛЬКА*'
+global.ownerNumber = ['79524197466']
+global.ownerName = 'ZloiAdmin'
 global.packname = 'стикеры'
-global.author = '*от ВАНИЛЬКИ*'
+global.author = '*от Джокера*'
 global.prefa = ['#','!'] //Ilangin Prefix Yang '' Kalau Gamau No Prefix
 global.sessionName = 'sesi'
 
