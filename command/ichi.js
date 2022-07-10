@@ -166,7 +166,7 @@ case 'менюшка': {
 ╠ ${prefix}антиссылка
 ╠ ${prefix}ссылка
 ╠ ${prefix}сброссылки
-╠ ${prefix}удалить
+╠ ${prefix}пиуу
 ╠ ${prefix}добавить
 ╠ ${prefix}датьадмина
 ╠ ${prefix}снятьадмина
@@ -322,7 +322,7 @@ case 'сброссылки': {
   m.reply(mess.done)
   }
   break
-case 'удалить': {
+case 'пиуу': {
   if (!m.isGroup) return m.reply(mess.group)
   if (!isBotAdmins) return m.reply(mess.botAdmin)
   if (!isAdmins) return m.reply(mess.admin)
@@ -440,7 +440,7 @@ case 'группа': {
   break
 
 //Maker Menu
-case 'стикер': case 's': {
+case 'стикер': case 'с': {
   if (!quoted) return m.reply(`Balas Video/Image Dengan Caption ${prefix + command}`)
   m.reply(mess.wait)
   if (/image/.test(mime)) {
