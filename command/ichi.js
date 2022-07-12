@@ -190,7 +190,7 @@ case 'менюшка': {
 
 ╔════════
 ╠══ *DOWNLOAD MENU*
-╠ ${prefix}play
+╠ ${prefix}песня
 ╠ ${prefix}yts
 ╠ ${prefix}ytmp3
 ╠ ${prefix}ytmp4
