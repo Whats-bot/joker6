@@ -187,6 +187,14 @@ case 'менюшка': {
 ╠ ${prefix}tourl
 ╠ ${prefix}removebg
 ╚════════
+
+╔════════
+╠══ *DOWNLOAD MENU*
+╠ ${prefix}play
+╠ ${prefix}yts
+╠ ${prefix}ytmp3
+╠ ${prefix}ytmp4
+╚════════
   `
   let but = [
   ]
@@ -508,6 +516,90 @@ case 'tourl': {
   break
 
 //Random Menu
+		
+//Downloader
+case 'ytmp4': case 'ytvideo': case 'ytv': {
+  let { ytv } = require('../lib/y2mate')
+  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return m.reply('Link Invalid ❎')
+  if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
+  await m.reply(mess.wait)
+  let quality = args[1] ? args[1] : '360p'
+  let media = await ytv(text, quality)
+  if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
+  var caption = `---- Youtube Downloader -----
+  
+📄 Название : ${media.title}
+🎚️ Размер : ${media.filesizeF}
+🔗 Ссылка : ${isUrl(text)}
+📥 Формат : MP4
+📮 Качество : ${args[1] || '360p'}`
+  ichi.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: caption }, { quoted: m })
+  }
+  break
+case 'ytmp3': case 'ytaudio': case 'yta': {
+  let { yta } = require('../lib/y2mate')
+  if (!q) return m.reply(`Gunakan Format : ${command} linknya`)
+  if (!isUrl(q)) return m.reply('Link Invalid ❎')
+  if (!q.includes('youtube')/('youtu.be')) return m.reply('Link Invalid ❎')
+  await m.reply(mess.wait)
+  let quality = args[1] ? args[1] : '128kbps'
+  let media = await yta(text, quality)
+  if (media.filesize >= 100000) return m.reply('File Melebihi Batas Silahkan Download Sendiri : '+media.dl_link)
+  var caption = `*------ Youtube Downloader -----*
+📄 Название : ${media.title}
+🎚️ Размер : ${media.filesizeF}
+🔗 Ссылка : ${isUrl(text)}
+📥 Формат : MP3
+📮 Битрейт : ${args[1] || '128kbps'}`
+  ichi.sendImage(m.chat, media.thumb, caption, m)
+  ichi.sendMessage(m.chat, { audio: { url: media.dl_link }, mimetype: 'audio/mpeg', fileName: `${media.title}.mp3` }, { quoted: m })
+  }
+  break
+case 'yts': case 'ytsearch': {
+  m.reply(mess.wait)
+  if (!text) return `Example : ${prefix + command} story wa anime`
+  let yts = require("yt-search")
+  let search = await yts(text)
+  let teks = '*---- Data Ditemukan ----*\n\n Keywords : '+text+'\n\n'
+  let no = 1
+  for (let i of search.all) {
+  teks += `🔢 No : ${no++}
+🎞️ Type : ${i.type}
+📀 Video ID : ${i.videoId}
+📄 Title : ${i.title}
+👁️ Views : ${i.views}
+👁️ Duration : ${i.timestamp}
+📤 Upload : ${i.ago}
+👨‍🎤 Author : ${i.author.name}
+🔗 Url : ${i.url}\n\n─────────────────\n\n`
+  }
+  ichi.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
+  }
+  break
+case 'песня':
+  if (!text) return `Example : ${prefix + command} story wa anime`
+  let yts = require("yt-search")
+  let search = await yts(text)
+  let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
+  let buttons = [{buttonId: `ytmp3 ${anu.url}`, buttonText: {displayText: 'Audio 🎵'}, type: 1}, {buttonId: `ytmp4 ${anu.url}`, buttonText: {displayText: 'Video 🎦'}, type: 1}]
+  let buttonMessage = {
+  image: { url: anu.thumbnail },
+  caption: `*----- DATA DITEMUKAN -----*
+  
+*📄 Название :* ${anu.title}
+*⌚ Время :* ${anu.timestamp}
+*👁️ Просмотрено :* ${anu.views}
+*📤 Загружено :* ${anu.ago}
+*👨‍🎤 Адрес ютюб канала :* ${anu.author.url}
+*🔗 Ссылка :* ${anu.url}`,
+  footer: global.ownerName,
+  buttons: buttons,
+  headerType: 4
+  }
+  ichi.sendMessage(m.chat, buttonMessage, { quoted: m })
+  break
+
 //Eval
 default:
 if (budy.startsWith('=>')) {
